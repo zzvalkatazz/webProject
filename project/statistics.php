@@ -37,6 +37,12 @@ $query=$conn->prepare(
 $query->execute([$user_id]);
 $year_data=$query->fetchAll(PDO::FETCH_ASSOC);
 
+$query=$conn->prepare(
+  "SELECT country, COUNT(*) AS count FROM coins
+  JOIN collections ON  coins.collection_id=collections.id
+  WHERE collections.user_id=?
+  GROUP BY country ORDER BY count DESC LIMIT 7"
+)
 header('Content-Type: application/json');
 
 echo json_encode([
@@ -44,6 +50,7 @@ echo json_encode([
     'total_value'=>$total_value,
     'continent_data'=>$continent_data,
     'year_data'=>$year_data
+    'country_data'=>$country_data
 ]);
 ?>
 
