@@ -11,3 +11,23 @@ CREATE TABLE `users` (
     `Email` VARCHAR(200) NOT NULL UNIQUE, 
     `Password` VARCHAR(200) NOT NULL 
 ) ENGINE = InnoDB;
+
+
+CREATE TABLE `collections` (
+    `id` INT AUTO_INCREMENT PRIMARY KEY,
+    `user_id` INT NOT NULL,
+    `name` VARCHAR(100) NOT NULL,
+    FOREIGN KEY (`user_id`) REFERENCES `users`(`id`) ON DELETE CASCADE
+) ENGINE = InnoDB;
+
+CREATE TABLE `coins` (
+    `id` INT AUTO_INCREMENT PRIMARY KEY,
+    `collection_id` INT NOT NULL,
+    `name` VARCHAR(100) NOT NULL,  
+    `year` INT,                    
+    `value` DECIMAL(10,2),        
+    `continent` VARCHAR(50),       
+    `country` VARCHAR(100),        
+    `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (`collection_id`) REFERENCES `collections`(`id`) ON DELETE CASCADE
+) ENGINE = InnoDB;
