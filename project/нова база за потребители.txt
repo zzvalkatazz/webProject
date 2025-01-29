@@ -1,11 +1,13 @@
-CREATE DATABASE `Users` DEFAULT CHARACTER SET utf8 COLLATE utf8_bin;
+-- Създаване на базата данни, ако не съществува
+CREATE DATABASE IF NOT EXISTS `Users` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
 
+-- Използване на базата данни
 USE `Users`;
 
--- Таблица за потребителите
+-- Създаване на таблицата users
 CREATE TABLE `users` ( 
     `id` INT AUTO_INCREMENT PRIMARY KEY, 
     `Username` VARCHAR(20) NOT NULL UNIQUE, 
-    `Password` VARCHAR(200) NOT NULL, 
-    `Email` VARCHAR(200) NOT NULL UNIQUE 
+    `Email` VARCHAR(200) NOT NULL UNIQUE, 
+    `Password` VARCHAR(200) NOT NULL 
 ) ENGINE = InnoDB;

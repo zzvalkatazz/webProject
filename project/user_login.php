@@ -27,17 +27,17 @@
         <label for="Username">Потребителско име:</label><br>
         <input type ="text" name="username" id="Username" required value="<?php echo htmlspecialchars($_POST['username'] ?? '');?>"><br>
         <?php if(!empty($errors['username'])):?>
-            <span style="color:dark-red;"><?php echo $errors['username'];?></span><br>
+            <span style="color:#8B0000;"><?php echo $errors['username'];?></span><br>
         <?php endif;?>
       
         <label for="Password">Парола:</label><br>
         <input type ="password" name="password" id="Password" required value="<?php echo htmlspecialchars($_POST['password'] ?? '');?>"><br>
         <?php if(!empty($errors['password'])):?>
-            <span style="color:dark-red;"><?php echo $errors['password'];?></span><br>
+            <span style="color:#8B0000;"><?php echo $errors['password'];?></span><br>
         <?php endif;?>
 
         <?php if(!empty($errors['login'])):?>
-            <span style="color:dark-red;"><?php echo $errors['login'];?></span><br>
+            <span style="color:#8B0000;"><?php echo $errors['login'];?></span><br>
         <?php endif;?>
 
         <input type="submit" value="Влез">

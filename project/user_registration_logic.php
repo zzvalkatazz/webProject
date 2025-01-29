@@ -72,7 +72,7 @@
           // показване на грешки или запис на потребител
           if(!empty($errors))
           {
-            echo '<ul style="color: dark-red;">';
+            echo '<ul style="color: #8B0000;">';
            foreach($errors as $error)
            {
             echo "<li>$error</li>";
@@ -85,7 +85,7 @@
             $query->bindParam(':username',$username);
             $query->bindParam(':email',$email);
             $query->bindParam(':password',$hashedPassword);
-            $query->execute();
+
             try
             {
                 $query->execute();

@@ -28,7 +28,7 @@
             }
             if(!empty($errors))
             {
-              echo '<ul style="color: red;">';
+              echo '<ul style="color:#8B0000;">';
              foreach($errors as $error)
              {
               echo "<li>$error</li>";
