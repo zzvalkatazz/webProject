@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <header>
+        <title>Добавяне на монета</title>
+</head>
+<body>
+    <h1>Добавяне на нова монета</h1>
+   
+        <nav>
+            <ul>
+              <li><a href="Coin_Collector.html">Начало</a></li>
+              <li><a href="my_collection.php">Моята колекция</a></li>
+              <li><a href="import_coin.html">Добавяне на монета</a></li>
+              <li><a href="statistics.php">Статистики</a></li>
+              <li><a href="user_logout.php">Log out</a></li>
+            </ul>
+          </nav>
+    </header>
+    
+        <section>
+            <h2>Попълнете данните за монетата</h2>
+            <form action="import_coin.php" method="post" enctype="multipart/form-data">
+                    <legend>Данни за монетата</legend>
+                   
+                    <label>Име:</label>
+                    <input type="text" name="name" required><br>
+
+                    <label>Година:</label>
+                    <input type="number" name="year" required><br>
+
+                    <label>Стойност:</label>
+                    <input type="text" name="value" required><br>
+                    
+                    <label>Континент:</label>
+                    <select name="continent" required>
+                        <option value="Европа">Европа</option>
+                        <option value="Азия">Азия</option>
+                        <option value="Африка">Африка</option>
+                        <option value="Северна Америка">Северна Америка</option>
+                        <option value="Южна Америка">Южна Америка</option>
+                        <option value="Австрия">Австрия</option>
+                    </select><br>
+
+                     <label>Държава</label>
+                     <input type="text" name="country" required><br>
+                     
+                     <label>Снимка на предна част:</label>
+                     <input type="file" name="front_image" required><br>
+
+                     <label>Снимка на гръб</label>
+                     <input type="file" name="back_image" required><br>
+                
+                     <button type="submit">Запази</button>
+
+               
+        </form>
+   
+</body>
+</html>

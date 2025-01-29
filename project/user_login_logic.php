@@ -1,0 +1,93 @@
+<?php
+        require_once("db.php");
+        session_start();
+
+        function secure_input($data)
+        {
+            $data = trim($data);
+            $data = stripslashes($data);
+            $data = htmlspecialchars($data);
+            return $data;
+        }
+
+        $errors=[];
+        if($_SERVER["REQUEST_METHOD"] == "POST")
+        {
+            $username = secure_input($_POST["username"]);
+            $password = secure_input($_POST["password"]);
+          
+            
+            if(empty($username))
+            {
+                $errors[]='Потребителското име е задължително.';
+            }
+
+            if(empty($password))
+            {
+                $errors[]='Паролата е задължителна!';
+            }
+            if(!empty($errors))
+            {
+              echo '<ul style="color: red;">';
+             foreach($errors as $error)
+             {
+              echo "<li>$error</li>";
+             }
+             echo '</ul>';
+            }
+           if(empty($errors))
+           {
+             
+              $query="SELECT Username,Password FROM users  WHERE Username = :username";
+              $stmt= $conn->prepare($query);
+              $stmt->bindParam(':username',$username);
+              $stmt->execute();
+             
+             $user=$stmt->fetch(PDO::FETCH_ASSOC);
+            if(password_verify($password,$user['Password']))
+            {
+                $_SESSION["username"]=$username;
+                header("Location:Coin_Collector.html");
+                exit();
+            }
+            else {
+              $errors['login']="Грешно потрбителско име или парола!";
+             }
+           }
+
+        }
+?>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
