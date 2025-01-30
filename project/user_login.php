@@ -16,7 +16,6 @@
         <h1>Coin Collector </h1>
      </header>
   
-
     <?php include("user_login_logic.php");?>
 
   <section>

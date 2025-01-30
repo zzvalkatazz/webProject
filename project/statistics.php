@@ -4,53 +4,69 @@ session_start();
 
 if(!isset($_SESSION['user_id']))
 {
-    header("Location:user_login.php");
+    header("Content-Type:application/json");
+    echo json_encode(["error"=>"Не сте влезли в системата"],JSON_UNESCAPED_UNICODE);
     exit();
 }
 $user_id=$_SESSION['user_id'];
-
+if(!$conn)
+{
+    header("Content-Type:application/json");
+    echo json_encode(["error"=>"Грешка при свързването с базата"],JSON_UNESCAPED_UNICODE);
+    exit();
+}
 $query=$conn->prepare ("SELECT COUNT(*) AS total_coins,SUM(value) AS total_value
 FROM coins 
-JOIN collections ON coins.collection_id=collection_id
-WHERE  collection.user_id = ?");
+JOIN collections ON coins.collection_id=collections.id
+WHERE  collections.user_id = ?");
 
 $query->execute([$user_id]);
-$statistics = $query->fetchAll(PDO::FETCH_ASSOC);
+$statistics = $query->fetch(PDO::FETCH_ASSOC);
 $total_coins=$statistics['total_coins'] ?? 0;
 $total_value=$statistics['total_value'] ?? 0.00;
 
 $query=$conn->prepare(
     "SELECT continent,COUNT(*) AS count FROM coins
-    JOIN collections ON coins,collection_id=collections_id
+    JOIN collections ON coins.collection_id=collections.id
     WHERE collections.user_id=?
     GROUP BY continent");
 
-$query->execute([user_id]);
-$continent_data = $query->fetchAll(PDO::FETCH_ASSOC);
+$query->execute([$user_id]);
+$continent_data = $query->fetchAll(PDO::FETCH_ASSOC)?:[];
 
 $query=$conn->prepare(
     "SELECT year,COUNT(*) AS count FROM coins
-    JOIN collections ON coins.collection.id=collections.id
-    WHERE collection.user_id=?
+    JOIN collections ON coins.collection_id=collections.id
+    WHERE collections.user_id=?
     GROUP BY year ORDER BY year ASC"
 );
 $query->execute([$user_id]);
-$year_data=$query->fetchAll(PDO::FETCH_ASSOC);
+$year_data=$query->fetchAll(PDO::FETCH_ASSOC) ?:[];
 
 $query=$conn->prepare(
   "SELECT country, COUNT(*) AS count FROM coins
   JOIN collections ON  coins.collection_id=collections.id
   WHERE collections.user_id=?
   GROUP BY country ORDER BY count DESC LIMIT 7"
-)
-header('Content-Type: application/json');
+);
 
+$query->execute([$user_id]);
+$country_data=$query->fetchAll(PDO::FETCH_ASSOC) ?:[];
+
+
+if($total_coins==0)
+{
+    header('Content-Type:application/json');
+    echo json_encode(["empty"=>true],JSON_UNESCAPED_UNICODE);
+    exit();
+}
+header('Content-Type: application/json');
 echo json_encode([
     'total_coins'=>$total_coins,
     'total_value'=>$total_value,
     'continent_data'=>$continent_data,
-    'year_data'=>$year_data
+    'year_data'=>$year_data,
     'country_data'=>$country_data
-]);
+],JSON_UNESCAPED_UNICODE);
 ?>
 

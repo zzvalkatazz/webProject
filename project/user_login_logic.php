@@ -44,7 +44,7 @@
               $stmt->execute();
              
              $user=$stmt->fetch(PDO::FETCH_ASSOC);
-            if(password_verify($password,$user['Password']))
+            if($user && password_verify($password,$user['Password']))
             {
                 $_SESSION["username"]=$username;
                 header("Location:Coin_Collector.html");
@@ -54,7 +54,6 @@
               $errors['login']="Грешно потрбителско име или парола!";
              }
            }
-
         }
 ?>
 
