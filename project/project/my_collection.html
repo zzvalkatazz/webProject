@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="my_collection.js" defer></script>
+    <title>Document</title>
+</head>
+<body>
+    <header>
+        <h1>Моята колекция</h1>
+        <nav>
+            <ul>
+                <li><a href="Coin_Collector.html">Начало</a></li>
+                <li><a href="my_collection.html">Моята колекция</a></li>
+                <li><a href="all_coins.html">Галерия</a></li>
+                <li><a href="import_coin.html">Добавяне на монета</a></li>
+                <li><a href="statistics.html">Статистики</a></li>
+                <li><a href="user_logout.php">Log out</a></li>
+            </ul>
+        </nav>
+    </header>
+
+
+    <main>
+        <h2>Галерия на моите монети</h2>
+        
+        <div>
+            <input type="text" id="search" placeholder="търсене по име или държава">
+            <select id="filter-continent">
+                <option value=""> Всички континенти</option>
+                <option value="Европа"> Европа</option>
+                <option value="Азия"> Азия</option>
+                <option value="Африка"> Африка</option>
+                <option value="Северна Америка"> Северна Америка</option>
+                <option value="Южна Америка"> Южна Америка</option>
+                <option value="Австралия"> Австралия</option>
+            </select>
+              
+            <select id="sort">
+                <option value="year-desc">По най-късна година</option>
+                <option value="year-asc"> По най-стара година</option>
+                <option value="value-desc">С най-голяма стойност</option>
+                <option value="value-asc"> С най-малка стойност</option>
+            </select>
+        </div>
+
+      
+
+        <div id="coins-gallery"></div>
+    </main>
+</body>
+</html>

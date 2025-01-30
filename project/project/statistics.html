@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Статистики-Coin Collector</title>
+    <script src="statistics.js" defer></script>
+</head>
+<body>
+    <header>
+        <h1>Статистика за потребителски монети</h1>
+        <nav>
+            <ul>
+                <li><a href="Coin_Collector.html">Начало</a></li>
+                <li><a href="my_collection.html">Моята колекция</a></li>
+                <li><a href="all_coins.html">Галерия</a></li>
+                <li><a href="import_coin.html">Добавяне на монета</a></li>
+                <li><a href="statistics.html">Статистики</a></li>
+                <li><a href="user_logout.php">Log out</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <p><strong>Общ брой монети</strong> <span id="total-coins">0</span></p>
+        <p><strong>Общa стойност</strong> <span id="total-value">0.00</span></p>
+
+        <h3>Разпределение на монетите по континенти</h3>
+        <ul id="continent-statistics"></ul>
+
+        <h3>Топ 7 държави с най-много монети</h3>
+        <ul id="country-statistics"></ul>
+    </main>
+</body>
+</html>
