@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="all_coins.js" defer></script>
     <title>Галерия</title>
 </head>
 <body>
@@ -21,8 +22,33 @@
     </header>
 
     <main>
-        <h2>Галерия с монети на всички потребители</h2>
-        <div id="all_coins-gallery"></div>
+        <main>
+            <h2>Всички монети</h2>
+            
+            <div>
+                <input type="text" id="search" placeholder="търсене по име или държава">
+                <select id="filter-continent">
+                    <option value=""> Всички континенти</option>
+                    <option value="Европа"> Европа</option>
+                    <option value="Азия"> Азия</option>
+                    <option value="Африка"> Африка</option>
+                    <option value="Северна Америка"> Северна Америка</option>
+                    <option value="Южна Америка"> Южна Америка</option>
+                    <option value="Австралия"> Австралия</option>
+                </select>
+                  
+                <select id="sort">
+                    <option value="year-desc">По най-късна година</option>
+                    <option value="year-asc"> По най-стара година</option>
+                    <option value="value-desc">С най-голяма стойност</option>
+                    <option value="value-asc"> С най-малка стойност</option>
+                </select>
+            </div>
+    
+          
+    
+            <div id="coins-gallery"></div>
+        </main>
     </main>
 </body>
 </html>
