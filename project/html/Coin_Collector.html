@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+    <p id="user_name">Име...</p>
+   
+    <nav>
+      <ul>
+        <li><a href="Coin_Collector.html">Начало</a></li>
+        <li><a href="my_collection.html">Моята колекция</a></li>
+        <li><a href="all_coins.html">Галерия</a></li>
+        <li><a href="import_coin.html">Добавяне на монета</a></li>
+        <li><a href="statistics.html">Статистики</a></li>
+        <li><a href="user_logout.php">Log out</a></li>
+      </ul>
+    </nav>
+    <script>
+    fetch('coin_collector_logic.php')
+    .then(response=>response.json())
+    .then(data=>{
+        if(data.error)
+      {
+        document.getElementById('user_name').innerText="Невалиден потребител";
+      }
+      else
+      {
+        document.getElementById('user_name').innerText=`Здравей, ${data.username}!`;
+      }
+    })
+    </script>
+</body>
+</html>
