@@ -1,10 +1,34 @@
 document.addEventListener("DOMContentLoaded",function()
 {
     const gallery= document.getElementById("coins-gallery");
+    const searchInput=document.getElementById("search");
+    const filterContinent= document.getElementById("filter-continent");
+    const sortSelect=document.getElementById("sort");
+
+    const modal=document.getElementById("coinModal");
+
+    const modalTitle=modal.querySelector(".modal-title");
+    const modalYear=modal.querySelector(".modal-year");
+    const modalCountry=modal.querySelector(".modal-country");
+    const modalValue=modal.querySelector(".modal-value");
+    const modalContinent=modal.querySelector(".modal-continent");
+    const modalCollection=modal.querySelector(".modal-collection");
+    const modalOwner=modal.querySelector(".modal-owner");
+    const modalFront=modal.querySelector(".modal-front");
+    const modalBack=modal.querySelector(".modal-back");
+    const modalClose=modal.querySelector(".close");
 
     function fetchAndShowCoins()
     {
-        fetch("all_coins.php")
+        const searchQuery= searchInput.value.trim();
+        const selectedContinent = filterContinent.value;
+        const selectedSort = sortSelect.value;
+
+        const params= new URLSearchParams();
+        if(searchQuery) params.append("search",searchQuery);
+        if(selectedContinent) params.append("continent", selectedContinent);
+        if(sortSelect.value) params.append("sort",sortSelect.value);
+        fetch("all_coins.php?"  + params.toString())
         .then(response=>response.json())
         .then(data=>
         {
@@ -16,6 +40,7 @@ document.addEventListener("DOMContentLoaded",function()
                 return;
             }
             data.coins.forEach(coin => {
+                
                 let div= document.createElement("div");
                 div.className="coin-item";
                 div.innerHTML=`
@@ -26,8 +51,9 @@ document.addEventListener("DOMContentLoaded",function()
                  </div>
                  <p><strong>${coin.name}</strong> (${coin.year})</p>
                  <p>${coin.value}, ${coin.country}</p>
-                 <button onclick="showDetails(${coin.id})"> Детайли за монетата</button>
+                 <p>Колекция ${coin.collection_name || "Неизвестна"}</p>
                  <p> Качено от :${coin.owner}</p>
+                 <button onclick="showDetails('${encodeURIComponent(coin.name)}','${coin.year}','${encodeURIComponent(coin.country)}','${coin.value}','${encodeURIComponent(coin.continent)}','${encodeURIComponent(coin.collection_name)}','${encodeURIComponent(coin.owner)}','${coin.front_image}','${coin.back_image}')"> Детайли за монетата</button>
                  </div>
                 `;
                 gallery.appendChild(div);
@@ -35,5 +61,29 @@ document.addEventListener("DOMContentLoaded",function()
         })
         .catch(error=>console.error("Грешка при зареждането на колекцията",error));
     }
+    window.showDetails=function(name,year,country,value,continent,collection,owner,frontImage,backImage)
+    {
+        modal.style.display="block";
+        modalTitle.textContent=decodeURIComponent(name);
+        modalYear.textContent=`Година:${decodeURIComponent(year)}`;
+        modalCountry.textContent=`Държава: ${decodeURIComponent(country)}`;
+        modalValue.textContent=`Стойност:${value} лв`;
+        modalContinent.textContent=`Континент:${decodeURIComponent(continent)}`;
+        modalCollection.textContent=`Колекция:${decodeURIComponent(collection)}`;
+        modalOwner.textContent=`Собственик: ${decodeURIComponent(owner)}`;
+        modalFront.src=`uploads/${frontImage}`;
+        modalBack.src=`uploads/${backImage}`;
+       
+    };
+
+    window.closeModal=function()
+    {
+        modal.style.display="none";
+    };
+
+    modalClose.addEventListener("click",closeModal);
+    searchInput.addEventListener("input",fetchAndShowCoins);
+    filterContinent.addEventListener("change",fetchAndShowCoins);
+    sortSelect.addEventListener("change",fetchAndShowCoins);
     fetchAndShowCoins();
 });

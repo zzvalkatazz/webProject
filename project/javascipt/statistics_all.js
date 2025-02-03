@@ -7,7 +7,8 @@ fetch('statistics_all.php')
 
     
     document.getElementById('total-coins-all').innerText=data.total_coins || 0;
-    document.getElementById('total-value-all').innerText=(data.total_value || 0).toFixed(2) + "лв";
+    document.getElementById('total-value-all').innerText = (parseFloat(data.total_value) || 0).toFixed(2) + " лв";
+
     
     const continentStatistics=document.getElementById("continent-all-statistics"); 
     continentStatistics.innerHTML="";
@@ -47,6 +48,7 @@ if(!data.user_data || data.user_data.length==0)
 {
     topUsers.innerHTML="<p>Все още няма активни потребители.</p>";
 }
+
 else{
     data.user_data.forEach(user=> 
     {
@@ -57,7 +59,7 @@ else{
 }
 const topDecadesAll = document.getElementById("top-decades-all");
 topDecadesAll.innerHTML="";
-if(!data.top_decades_all || data.top_decades_all.length==0)
+if(!data || !data.top_decades_all || data.top_decades_all.length===0)
 {
     topDecadesAll.innerHTML="<p>Няма информация за класация на монети по десетилетие</p>"
 }
