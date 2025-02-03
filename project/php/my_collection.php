@@ -19,11 +19,13 @@ if(!$conn)
 }
 $search=isset($_GET['search']) ? "%".$_GET['search']."%" : "%";
 $continent=isset($_GET['continent']) && $_GET['continent'] !=="" ? $_GET['continent'] : null;
+$collection = isset($_GET['collection']) && $_GET['collection'] !=="" ? $_GET['collection'] : null;
 $sort= isset($_GET['sort']) ? $_GET['sort'] : "year-desc";
 
-$query="SELECT id, name,year,value,country,continent,front_image,back_image
+$query="SELECT coins.id, coins.name,coins.year,coins.value,coins.country,coins.continent,coins.front_image,coins.back_image, collections.name AS collection_name
 FROM coins
-WHERE user_id= ? AND(name LIKE ? OR country LIKE ?)";
+JOIN collections ON coins.collection_id=collections.id
+WHERE collections.user_id= ? AND(coins.name LIKE ? OR coins.country LIKE ?)";
 
 $parameters=[$user_id,$search,$search];
 if($continent)
@@ -31,11 +33,15 @@ if($continent)
     $query.=" AND continent = ?";
     $parameters[]=$continent;
 }
-
+if($collection)
+{
+    $query.=" AND collections.name = ?";
+    $parameters[]=$collection;
+}
 switch($sort)
 {
     case "year-asc":
-        $query.="ORDER BY year ASC";
+        $query.="ORDER BY coins.year ASC";
         break;
     case "value-desc":
         $query.="ORDER BY CAST(value AS DECIMAL(10,2)) DESC";
@@ -44,7 +50,7 @@ switch($sort)
         $query.="ORDER BY CAST(value AS DECIMAL(10,2)) ASC";
         break;
     default:
-    $query.="ORDER BY year DESC";
+    $query.="ORDER BY coins.year DESC";
 }
 
 try
@@ -54,8 +60,8 @@ try
     $coins= $stmt->fetchAll(PDO::FETCH_ASSOC);
 
     header('Content-Type: application/json');
-    echo json_encode(["coins"=>$coins]);
+    echo json_encode(["coins"=>$coins],JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
 } catch(Exception $e){
   header("Content-Type:application/json");
-  echo json_encode(["error"=>"Грешка при изпълнение на заявката","details"=> $е->getMessage()]);
+  echo json_encode(["error"=>"Грешка при изпълнение на заявката","details"=> $e->getMessage()]);
 }

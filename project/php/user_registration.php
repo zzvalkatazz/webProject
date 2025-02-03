@@ -9,7 +9,7 @@
     <title>Вход- Coin Collector</title>
 </head>
 <body>
-   <div class="container">
+   <div class="login-container">
      <header>
         <h1>Coin Collector</h1>
      </header>
@@ -21,7 +21,7 @@
     
     <form action="user_registration.php" method="post">
        <fieldset>
-       <legend> Въведете данни за регистрация</legend>
+       <legend> Създайте нов профил</legend>
        
        <label for="Username"> Потребителско име:</label><br>
        <input type="text" name="username" id="Username" required><br>

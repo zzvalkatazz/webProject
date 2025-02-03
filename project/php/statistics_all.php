@@ -15,7 +15,8 @@ FROM coins"
 $query->execute();
 $statistics = $query->fetch(PDO::FETCH_ASSOC);
 $total_coins=$statistics['total_coins'] ?? 0;
-$total_value=$statistics['total_value'] ?? 0.00;
+$total_value = isset($statistics['total_value']) ? (float)$statistics['total_value'] : 0.00;
+
 
 $query=$conn->prepare(
     "SELECT continent,COUNT(*) AS count FROM coins
@@ -40,7 +41,7 @@ $query->execute();
 $country_data=$query->fetchAll(PDO::FETCH_ASSOC) ?:[];
 
 $query=$conn->prepare("
-SELECT users.Username,COUNT(coins.id) AS count
+SELECT users.Username as username,COUNT(coins.id) AS count
 FROM users
 JOIN collections ON users.id=collections.user_id
 JOIN coins ON collections.id=coins.collection_id
@@ -77,6 +78,6 @@ echo json_encode([
     'country_data'=>$country_data,
     'top_decades_all'=>$top_decades_all,
     'user_data'=>$user_data
-],JSON_UNESCAPED_UNICODE);
+],JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
 ?>
 

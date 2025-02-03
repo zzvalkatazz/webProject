@@ -38,7 +38,7 @@
            if(empty($errors))
            {
              
-              $query="SELECT Username,Password FROM users  WHERE Username = :username";
+              $query="SELECT id, Username,Password FROM users  WHERE Username = :username";
               $stmt= $conn->prepare($query);
               $stmt->bindParam(':username',$username);
               $stmt->execute();
@@ -47,6 +47,7 @@
             if($user && password_verify($password,$user['Password']))
             {
                 $_SESSION["username"]=$username;
+                $_SESSION["user_id"]=$user['id']; 
                 header("Location:Coin_Collector.html");
                 exit();
             }

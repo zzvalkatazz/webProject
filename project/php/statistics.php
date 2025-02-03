@@ -23,7 +23,7 @@ WHERE  collections.user_id = ?");
 $query->execute([$user_id]);
 $statistics = $query->fetch(PDO::FETCH_ASSOC);
 $total_coins=$statistics['total_coins'] ?? 0;
-$total_value=$statistics['total_value'] ?? 0.00;
+$total_value = isset($statistics['total_value']) ? (float)$statistics['total_value'] : 0.00;
 
 $query=$conn->prepare(
     "SELECT continent,COUNT(*) AS count FROM coins
@@ -62,7 +62,7 @@ GROUP BY decade
 ORDER BY count DESC
 LIMIT 5
 ");
-$query->execute();
+$query->execute([$user_id]);
 $top_decades_user=$query->fetchAll(PDO::FETCH_ASSOC) ?:[];
 if($total_coins==0)
 {
@@ -77,7 +77,7 @@ echo json_encode([
     'continent_data'=>$continent_data,
     'year_data'=>$year_data,
     'country_data'=>$country_data,
-    `top_decades_user`=>$top_decades_user
-],JSON_UNESCAPED_UNICODE);
+    'top_decades_user'=>$top_decades_user
+],JSON_UNESCAPED_UNICODE| JSON_PRETTY_PRINT );
 ?>
 

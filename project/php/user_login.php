@@ -1,5 +1,5 @@
 
-
+<?php include("user_login_logic.php");?>
    <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -11,17 +11,17 @@
     <title>Вход - Coin Collector</title>
 </head>
 <body>
-<div class="container">
+<div class="login-container">
      <header>
         <h1>Coin Collector </h1>
      </header>
   
-    <?php include("user_login_logic.php");?>
+   
 
   <section>
   <form action="user_login.php" method="post">
-    <fieldset>
-        <legend>Въведете данни за вход</legend>
+ 
+        <h2>Влезте в профила си</h2>
 
         <label for="Username">Потребителско име:</label><br>
         <input type ="text" name="username" id="Username" required value="<?php echo htmlspecialchars($_POST['username'] ?? '');?>"><br>
@@ -40,7 +40,6 @@
         <?php endif;?>
 
         <input type="submit" value="Влез">
-    </fieldset>
     </form>
 
        <p>Нямате акаунт?<a href="user_registration.php"> Регистрирайте се тук </a></p>
@@ -49,3 +48,5 @@
 
   </body>
   </html>
+
+  
