@@ -94,7 +94,7 @@
                 <li><a href="all_coins.html">Галерия</a></li>
                 <li><a href="import_coin.html">Добавяне на монета</a></li>
                 <li><a href="statistics.html">Статистики</a></li>
-                <li><a href="logout.html">Log out</a></li>
+                <li><a href="user_logout.php">Log out</a></li>
             </ul>
         </nav>
     </header>
@@ -103,14 +103,14 @@
         <h2>Попълнете данните за монетата</h2>
         <form action="import_coin.php" method="post" enctype="multipart/form-data">
             <label>Име:</label>
-            <input type="text" name="name" required>
+            <input type="text" name="name" required><br>
 
             <label>Година:</label>
-            <input type="number" name="year" required>
+            <input type="number" name="year" required><br>
 
             <label>Стойност:</label>
-            <input type="text" name="value" required>
-            
+            <input type="text" name="value" required><br>
+
             <label>Континент:</label>
             <select name="continent" required>
                 <option value="Европа">Европа</option>
@@ -119,17 +119,20 @@
                 <option value="Северна Америка">Северна Америка</option>
                 <option value="Южна Америка">Южна Америка</option>
                 <option value="Австралия">Австралия</option>
-            </select>
+            </select><br>
+
+            <label>Име на колекция:</label>
+            <input type="text" name="collection_name" required><br>
 
             <label>Държава:</label>
-            <input type="text" name="country" required>
+            <input type="text" name="country" required><br>
 
             <label>Снимка на предна част:</label>
-            <input type="file" name="front_image" required>
+            <input type="file" name="front_image" accept="image/png, image/jpeg" required><br>
 
             <label>Снимка на гръб:</label>
-            <input type="file" name="back_image" required>
-            
+            <input type="file" name="back_image" accept="image/png, image/jpeg" required><br>
+
             <button type="submit">Запази</button>
         </form>
     </section>

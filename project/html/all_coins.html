@@ -151,6 +151,28 @@
             </select>
         </div>
         <div id="coins-gallery"></div>
-    </main>
+        
+        <style>
+            #coinModal
+            {
+                display:none;
+            }
+        </style>
+
+    <div id="coinModal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeModal()">&times;</span>
+        <h2 class="modal-title"></h2>
+        <p class="modal-year"></p>
+        <p class="modal-country"></p>
+        <p class="modal-value"></p>
+        <p class="modal-continent"></p>
+        <p class="modal-collection"></p>
+        <p class="modal-owner"></p>
+        <img class="modal-front" src="" alt="Front Image">
+        <img class="modal-back" src="" alt="Back Image">
+    </div>
+   </div>
+ </main>
 </body>
 </html>

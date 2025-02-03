@@ -122,6 +122,7 @@
             color: #777;
             font-size: 1em;
         }
+      
     </style>
 </head>
 <body>
@@ -160,10 +161,29 @@
                 <option value="value-asc">С най-малка стойност</option>
             </select>
         </div>
-
+          
+        <style>
+            #coinModal
+            {
+                display:none;
+            }
+        </style>
+      
         <div id="coins-gallery">
-            <!-- Ovo će biti popunjeno dinamički sa JavaScript-om -->
         </div>
+        <div id="coinModal" class="modal">
+            <div class="modal-content">
+                <span class="close" onclick="closeModal()">&times;</span>
+                <h2 class="modal-title"></h2>
+                <p class="modal-year"></p>
+                <p class="modal-country"></p>
+                <p class="modal-value"></p>
+                <p class="modal-continent"></p>
+                <p class="modal-collection"></p>
+                <img class="modal-front" src="" alt="Front Image">
+                <img class="modal-back" src="" alt="Back Image">
+            </div>
+           </div>
     </main>
 </body>
 </html>
