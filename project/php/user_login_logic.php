@@ -1,5 +1,5 @@
 <?php
-        require_once("db.php");
+        require_once("./db.php");
         session_start();
 
         function secure_input($data)
@@ -48,7 +48,7 @@
             {
                 $_SESSION["username"]=$username;
                 $_SESSION["user_id"]=$user['id']; 
-                header("Location:Coin_Collector.html");
+                header("Location:../html/Coin_Collector.html");
                 exit();
             }
             else {

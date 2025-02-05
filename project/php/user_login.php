@@ -1,12 +1,12 @@
 
-<?php include("user_login_logic.php");?>
+<?php include("./user_login_logic.php");?>
    <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <form action="user_login.php" method="post" novalidate>
-    <link rel="stylesheet" href="log_and_registration.css">
+    <link rel="stylesheet" href="../css/login_and_registration.css">
 
     <title>Вход - Coin Collector</title>
 </head>

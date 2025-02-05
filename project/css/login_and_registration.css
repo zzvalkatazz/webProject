@@ -1,12 +1,4 @@
-<!DOCTYPE html>
-<html lang="bg">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  
-    <title>Вход - Coin Collector</title>
-    <style>
-        body {
+  body {
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
@@ -59,22 +51,3 @@
         .login-container button:hover {
             background-color: #34495e;
         }
-    </style>
-</head>
-<body>
-    <header>
-        <h1>Вход в Coin Collector</h1>
-    </header>
-
-    <main>
-        <div class="login-container">
-            <h2>Влезте в профила си</h2>
-            <form action="../php/user_login_logic.php" method="post">
-                <input type="text" name="username" placeholder="Потребителско име" required>
-                <input type="password" name="password" placeholder="Парола" required>
-                <button type="submit">Вход</button>
-            </form>
-        </div>
-    </main>
-</body>
-</html>
