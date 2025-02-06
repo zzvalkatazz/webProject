@@ -81,7 +81,7 @@ $success = $query->execute([$name, $year, $value, $country, $continent, $front_i
 
 if ($success) {
     
-    header("Location: my_collection.html");
+    header("Location: ../html/my_collection.html");
     exit();
 } else {
     echo "Грешка при добавянето на монетата.";
