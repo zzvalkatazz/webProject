@@ -86,4 +86,24 @@ document.addEventListener("DOMContentLoaded",function()
     filterContinent.addEventListener("change",fetchAndShowCoins);
     sortSelect.addEventListener("change",fetchAndShowCoins);
     fetchAndShowCoins();
+
+     // Функция за лайкване на монета
+    function likeCoin(coinId, button) {
+        fetch("../php/like.php", {
+            method: "POST",
+            headers: { "Content-Type": "application/x-www-form-urlencoded" },
+            body: `coin_id=${coinId}`
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                // Обновяваме броя на "like"-овете в интерфейса
+                const likeCount = button.querySelector(".like-count");
+                likeCount.textContent = data.likes; // новият брой на like-овете
+            } else {
+                alert(data.message); // ако има грешка
+            }
+        })
+        .catch(error => console.error("Грешка при изпращане на like:", error));
+    }
 });
