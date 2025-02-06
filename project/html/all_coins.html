@@ -173,6 +173,36 @@
         <img class="modal-back" src="" alt="Back Image">
     </div>
    </div>
+
+<div id="coins-gallery">
+    <!-- Тук монетите ще се зареждат динамично с PHP -->
+    <?php include "../php/load_coins.php"; ?>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        document.querySelectorAll(".like-button").forEach(button => {
+            button.addEventListener("click", function() {
+                let coinId = this.getAttribute("data-coin-id");
+                let imageType = this.getAttribute("data-image-type");
+
+                fetch("like.php", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/x-www-form-urlencoded" },
+                    body: `coin_id=${coinId}&image_type=${imageType}`
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        this.querySelector(".like-count").textContent = data.likes;
+                    } else {
+                        alert(data.message);
+                    }
+                });
+            });
+        });
+    });
+</script>
  </main>
 </body>
 </html>
