@@ -39,6 +39,12 @@ switch($sort)
     case "value-asc":
         $query.="ORDER BY CAST(coins.value AS DECIMAL(10,2)) ASC";
         break;
+    case "username-asc":
+        $query.="ORDER BY users.Username ASC";
+        break;
+    case "username-desc":
+        $query.="ORDER BY users.Username DESC";
+        break;
     default:
     $query.="ORDER BY coins.year DESC";
 }
