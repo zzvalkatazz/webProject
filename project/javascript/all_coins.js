@@ -54,6 +54,8 @@ document.addEventListener("DOMContentLoaded",function()
                  <p>Колекция ${coin.collection_name || "Неизвестна"}</p>
                  <p> Качено от :${coin.owner}</p>
                  <button onclick="showDetails('${encodeURIComponent(coin.name)}','${coin.year}','${encodeURIComponent(coin.country)}','${coin.value}','${encodeURIComponent(coin.continent)}','${encodeURIComponent(coin.collection_name)}','${encodeURIComponent(coin.owner)}','${coin.front_image}','${coin.back_image}')"> Детайли за монетата</button>
+                  <button onclick="exportCoin('${coin.id}')"> Export </button> 
+                
                  </div>
                 `;
                 gallery.appendChild(div);
@@ -106,4 +108,32 @@ document.addEventListener("DOMContentLoaded",function()
         })
         .catch(error => console.error("Грешка при изпращане на like:", error));
     }
+
+        // Функция за експортиране на монетата в CSV
+        window.exportCoin = function (coinId) {
+            // Това ще отвори директно генерирания CSV файл чрез PHP
+            window.location.href = `../php/export_coin.php?coin_id=${coinId}`;
+        };
+    
+        window.deleteCoin = function (coinId) {
+            if (confirm("Наистина ли искате да изтриете тази монета?")) {
+                // Това ще изпрати заявка до PHP скрипт за изтриване на монетата
+                fetch(`../php/delete_coin.php?coin_id=${coinId}`, {
+                    method: 'GET',
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            alert('Монетата беше успешно изтрита.');
+                            fetchAndShowCoins(); // Презареждаме галерията с актуализираните данни
+                        } else {
+                            alert('Грешка при изтриването на монетата.');
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Грешка при изтриването:', error);
+                        alert('Грешка при изтриването на монетата.');
+                    });
+            }
+        };
 });

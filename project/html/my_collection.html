@@ -122,7 +122,31 @@
             color: #777;
             font-size: 1em;
         }
-      
+.modal
+{
+    display:none;
+    position:fixed;
+    left:50%;
+    top:50%;
+    transform: translate(-50%,-50%);
+    width:50%;
+    max-width:450px;
+    background-color: white;
+    box-shadow: 0px 4px 8px rgba(0,0,0,0.2);
+    border-radius:8px;
+    padding:15px;
+    text-align:center;
+    overflow-y:auto;
+    max-height:90vh;
+}
+.modal.show
+{
+    display:block;
+}
+.modal-overlay.show
+{
+    display:block;
+}
     </style>
 </head>
 <body>

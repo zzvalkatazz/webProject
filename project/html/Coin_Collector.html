@@ -67,6 +67,7 @@
     </style>
 </head>
 <body>
+    
     <header>
         <h1>Добре дошли в Coin Collector</h1>
         <nav>
@@ -82,10 +83,21 @@
     </header>
 
     <main>
-        <div class="button-container">
-            <button onclick="location.href='../php/user_login.php'">Влезте в профила си</button>
-            <button onclick="location.href='../php/user_registration.php'">Регистрирайте се</button>
-        </div>
+        <p id="user_name">Име...</p>
+        <script>
+            fetch('../php/coin_collector_logic.php')
+            .then(response=>response.json())
+            .then(data=>{
+                if(data.error)
+              {
+                document.getElementById('user_name').innerText="Невалиден потребител";
+              }
+              else
+              {
+                document.getElementById('user_name').innerText=`Здравей, ${data.username}!`;
+              }
+            })
+            </script>
     </main>
 </body>
 </html>

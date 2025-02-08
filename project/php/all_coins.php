@@ -59,5 +59,7 @@ try
     echo json_encode(["coins"=>$coins]);
 } catch(Exception $e){
   header("Content-Type:application/json");
+  print_r($coins); // Провери дали PNG файловете са в резултата
+echo json_encode(["coins" => $coins], JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
   echo json_encode(["error"=>"Грешка при изпълнение на заявката","details"=> $e->getMessage()]);
 }
