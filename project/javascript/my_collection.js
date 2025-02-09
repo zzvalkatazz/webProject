@@ -1,186 +1,213 @@
-document.addEventListener("DOMContentLoaded", function () {
-    const gallery= document.getElementById("coins-gallery");
-    const searchInput=document.getElementById("search");
-    const filterContinent= document.getElementById("filter-continent");
-    const sortSelect=document.getElementById("sort");
-
-    const modal=document.getElementById("coinModal");
-    const modalTitle=modal.querySelector(".modal-title");
-    const modalYear=modal.querySelector(".modal-year");
-    const modalCountry=modal.querySelector(".modal-country");
-    const modalValue=modal.querySelector(".modal-value");
-    const modalContinent=modal.querySelector(".modal-continent");
-    const modalCollection=modal.querySelector(".modal-collection");
-    const modalOwner=modal.querySelector(".modal-owner");
-    const modalFront=modal.querySelector(".modal-front");
-    const modalBack=modal.querySelector(".modal-back");
-    const modalClose=modal.querySelector(".close");
-
-    function fetchAndShowCoins() {
-        const searchQuery = searchInput.value.trim();
-        const selectedContinent = filterContinent.value;
-        const selectedSort = sortSelect.value;
-
-        const params = new URLSearchParams();
-        if (searchQuery) params.append("search", searchQuery);
-        if (selectedContinent) params.append("continent", selectedContinent);
-        if (selectedSort) params.append("sort", selectedSort);
-
-        fetch("../php/all_coins.php?" + params.toString())
-            .then(response => response.json())
-            .then(data => {
-                console.log("📥 Получени данни от сървъра:", data);
-                gallery.innerHTML = "";
-                if (!data.coins || data.coins.length === 0) {
-                    gallery.innerHTML = "<p>Няма намерени монети.</p>";
-                    return;
-                }
-
-                data.coins.forEach(coin => {
-                    let div = document.createElement("div");
-                    div.className = "coin-item";
-                    div.innerHTML = `
-                        <div class="coin-container">
-                            <div class="coin-images">
-                                <img src ="../uploads/${coin.front_image}" alt="${coin.name}" class="coin-front">
-                                <button class="like-button" data-coin-id="${coin.id}" data-image-type="front">
-                                    👍 <span class="like-count">${coin.likes_front || 0}</span>
-                                </button>
-                                <img src ="../uploads/${coin.back_image}" alt="${coin.name}" class="coin-back">
-                                <button class="like-button" data-coin-id="${coin.id}" data-image-type="back">
-                                    👍 <span class="like-count">${coin.likes_back || 0}</span>
-                                </button>
-                            </div>
-                            <p><strong>${coin.name}</strong> (${coin.year})</p>
-                            <p>${coin.value}, ${coin.country}</p>
-							
-							 <p>Колекция: ${coin.collection_name || "Неизвестна"}</p>
-							 <p> Качено от :${coin.owner}</p>
-                 <button onclick="showDetails('${encodeURIComponent(coin.name)}','${coin.year}','${encodeURIComponent(coin.country)}','${coin.value}','${encodeURIComponent(coin.continent)}','${encodeURIComponent(coin.collection_name)}','${encodeURIComponent(coin.owner)}','${coin.front_image}','${coin.back_image}')"> Детайли за монетата</button>
-                  <button onclick="exportCoin('${coin.id}')"> Export </button> 
-				  <button onclick="deleteCoin('${coin.id}')">Изтриване</button>
-							
-                        </div>
-                    `;
-                    gallery.appendChild(div);
-                });
-
-                addLikeEventListeners(); // Добавяне на обработчици за лайкове
-            })
-            .catch(error => console.error("❌ Грешка при зареждането на колекцията", error));
-    }
-	
-	window.showDetails=function(name,year,country,value,continent,collection,owner,frontImage,backImage)
-    {
-        modal.style.display="block";
-        modalTitle.textContent=decodeURIComponent(name);
-        modalYear.textContent=`Година:${decodeURIComponent(year)}`;
-        modalCountry.textContent=`Държава: ${decodeURIComponent(country)}`;
-        modalValue.textContent=`Стойност:${value} лв`;
-        modalContinent.textContent=`Континент:${decodeURIComponent(continent)}`;
-        modalCollection.textContent=`Колекция:${decodeURIComponent(collection)}`;
-        modalOwner.textContent=`Собственик: ${decodeURIComponent(owner)}`;
-        modalFront.src=`../uploads/${frontImage}`;
-        modalBack.src=`../uploads/${backImage}`;
-       
-    };
-
-    window.closeModal=function()
-    {
-        modal.style.display="none";
-    };
-	
-	modalClose.addEventListener("click",closeModal);
-    searchInput.addEventListener("input",fetchAndShowCoins);
-    filterContinent.addEventListener("change",fetchAndShowCoins);
-    sortSelect.addEventListener("change",fetchAndShowCoins);
-    fetchAndShowCoins();
-	
-	 // Функция за експортиране на монетата в CSV
-        window.exportCoin = function (coinId) {
-            // Това ще отвори директно генерирания CSV файл чрез PHP
-            window.location.href = `../php/export_coin.php?coin_id=${coinId}`;
-        };
-    
-    window.deleteCoin = function (coinId) {
-        if (confirm("Наистина ли искате да изтриете тази монета?")) {
-            // Това ще изпрати заявка до PHP скрипт за изтриване на монетата
-            fetch(`../php/delete_coin.php?coin_id=${coinId}`, {
-                method: 'GET',
-            })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        alert('Монетата беше успешно изтрита.');
-                        fetchAndShowCoins(); // Презареждаме галерията с актуализираните данни
-                    } else {
-                        alert('Грешка при изтриването на монетата.');
-                    }
-                })
-                .catch(error => {
-                    console.error('Грешка при изтриването:', error);
-                    alert('Грешка при изтриването на монетата.');
-                });
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="../javascript/my_collection.js" defer></script>
+    <title>Моята колекция</title>
+    <style>
+        /* Osnovni stilovi za telo stranice */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
         }
-    };
 
-    function addLikeEventListeners() {
-        document.querySelectorAll(".like-button").forEach(button => {
-            button.addEventListener("click", function () {
-                let coinId = button.getAttribute("data-coin-id");
-                let imageType = button.getAttribute("data-image-type");
+        /* Header stil */
+        header {
+            background-color: #2c3e50;
+            color: white;
+            padding: 10px 0;
+            text-align: center;
+        }
 
-                fetch("../php/like.php", {
-                    method: "POST",
-                    headers: { "Content-Type": "application/x-www-form-urlencoded" },
-                    body: `coin_id=${coinId}&image_type=${imageType}`
-                })
-                .then(response => response.json())
-                .then(data => {
-                    console.log("📤 Server response:", data); // ✅ Проверка на отговора
-                    if (data.success) {
-                        // Обновяване на лайк броя веднага за този бутон
-                        let likeCountSpan = button.querySelector(".like-count");
-                        if (likeCountSpan) {
-                            likeCountSpan.textContent = data.likes;
-                        } else {
-                            console.error("❌ .like-count не е намерен в бутона!", button);
-                        }
-                    } else {
-                        alert(data.message);
-                    }
-                })
-                .catch(error => console.error("❌ Грешка при лайкване:", error));
-            });
-        });
-    }
+        header h1 {
+            margin: 0;
+            font-size: 2em;
+        }
 
-    // Функция за обновяване на лайковете, ако е необходимо
-    function updateLikesDisplay() {
-        fetch("../php/like.php")
-        .then(response => response.json())
-        .then(data => {
-            console.log("🔄 Обновяване на лайковете:", data);
-            data.forEach(like => {
-                let buttons = document.querySelectorAll(`.like-button[data-coin-id='${like.coin_id}'][data-image-type='${like.image_type}']`);
-                buttons.forEach(button => {
-                    let count = button.querySelector(".like-count");
-                    if (count) {
-                        count.textContent = like.likes;
-                    }
-                });
-            });
-        })
-        .catch(error => console.error("❌ Грешка при зареждане на лайковете:", error));
-    }
-	
-	
+        /* Navigacija */
+        nav ul {
+            list-style: none;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            margin: 10px 0 0;
+        }
 
-    searchInput.addEventListener("input", fetchAndShowCoins);
-    filterContinent.addEventListener("change", fetchAndShowCoins);
-    sortSelect.addEventListener("change", fetchAndShowCoins);
+        nav ul li {
+            margin: 0 15px;
+        }
 
-    // Зареждаме монетите и обновяваме лайковете
-    fetchAndShowCoins();
-    updateLikesDisplay();
-});
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-size: 1.1em;
+        }
+
+        nav ul li a:hover {
+            text-decoration: underline;
+        }
+
+        /* Glavni sadržaj */
+        main {
+            padding: 20px;
+            text-align: center;
+        }
+
+        main h2 {
+            font-size: 1.8em;
+            color: #333;
+        }
+
+        /* Forme za pretragu i filtriranje */
+        div {
+            margin-bottom: 20px;
+        }
+
+        input[type="text"] {
+            padding: 10px;
+            font-size: 1em;
+            width: 250px;
+            margin-right: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        select {
+            padding: 10px;
+            font-size: 1em;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            margin-right: 10px;
+        }
+
+        /* Stil za galeriju */
+        #coins-gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        /* Stil za pojedinačne elemente galerije */
+        .coin-item {
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            text-align: center;
+            padding: 10px;
+            transition: transform 0.3s ease;
+        }
+
+        .coin-item:hover {
+            transform: scale(1.05);
+        }
+
+        .coin-item img {
+            width: 100%;
+            height: auto;
+            border-radius: 8px;
+        }
+
+        .coin-item h3 {
+            margin: 10px 0;
+            font-size: 1.2em;
+            color: #333;
+        }
+
+        .coin-item p {
+            color: #777;
+            font-size: 1em;
+        }
+.modal
+{
+    display:none;
+    position:fixed;
+    left:50%;
+    top:50%;
+    transform: translate(-50%,-50%);
+    width:50%;
+    max-width:450px;
+    background-color: white;
+    box-shadow: 0px 4px 8px rgba(0,0,0,0.2);
+    border-radius:8px;
+    padding:15px;
+    text-align:center;
+    overflow-y:auto;
+    max-height:90vh;
+}
+.modal.show
+{
+    display:block;
+}
+.modal-overlay.show
+{
+    display:block;
+}
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Моята колекция</h1>
+        <nav>
+            <ul>
+                <li><a href="Coin_Collector.html">Начало</a></li>
+                <li><a href="my_collection.html">Моята колекция</a></li>
+                <li><a href="all_coins.html">Галерия</a></li>
+                <li><a href="import_coin.html">Добавяне на монета</a></li>
+                <li><a href="statistics.html">Статистики</a></li>
+                <li><a href="logout.html">Log out</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <h2>Галерия на моите монети</h2>
+        
+        <div>
+            <input type="text" id="search" placeholder="търсене по име или държава">
+            <select id="filter-continent">
+                <option value="">Всички континенти</option>
+                <option value="Европа">Европа</option>
+                <option value="Азия">Азия</option>
+                <option value="Африка">Африка</option>
+                <option value="Северна Америка">Северна Америка</option>
+                <option value="Южна Америка">Южна Америка</option>
+                <option value="Австралия">Австралия</option>
+            </select>
+            <select id="sort">
+                <option value="year-desc">По най-късна година</option>
+                <option value="year-asc">По най-стара година</option>
+                <option value="value-desc">С най-голяма стойност</option>
+                <option value="value-asc">С най-малка стойност</option>
+            </select>
+        </div>
+          
+        <style>
+            #coinModal
+            {
+                display:none;
+            }
+        </style>
+      
+        <div id="coins-gallery">
+        </div>
+        <div id="coinModal" class="modal">
+            <div class="modal-content">
+                <span class="close" onclick="closeModal()">&times;</span>
+                <h2 class="modal-title"></h2>
+                <p class="modal-year"></p>
+                <p class="modal-country"></p>
+                <p class="modal-value"></p>
+                <p class="modal-continent"></p>
+                <p class="modal-collection"></p>
+                <img class="modal-front" src="" alt="Front Image">
+                <img class="modal-back" src="" alt="Back Image">
+            </div>
+           </div>
+    </main>
+</body>
+</html>
