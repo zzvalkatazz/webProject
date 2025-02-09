@@ -43,5 +43,5 @@ CREATE TABLE likes (
     FOREIGN KEY (user_id) REFERENCES users(id),
     FOREIGN KEY (coin_id) REFERENCES coins(id),
     UNIQUE(user_id, coin_id, image_type)
-);
+) ENGINE = InnoDB;
 
