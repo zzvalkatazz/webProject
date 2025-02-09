@@ -34,3 +34,14 @@ CREATE TABLE `coins` (
     FOREIGN KEY (`collection_id`) REFERENCES `collections`(`id`) ON DELETE CASCADE,
     FOREIGN KEY (`user_id`) REFERENCES `Users`.`users`(`id`) ON DELETE CASCADE
 ) ENGINE = InnoDB;
+
+CREATE TABLE likes (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NOT NULL,
+    coin_id INT NOT NULL,
+    image_type ENUM('front', 'back') NOT NULL,
+    FOREIGN KEY (user_id) REFERENCES users(id),
+    FOREIGN KEY (coin_id) REFERENCES coins(id),
+    UNIQUE(user_id, coin_id, image_type)
+);
+
