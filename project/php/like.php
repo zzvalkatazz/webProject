@@ -2,6 +2,11 @@
 require_once("./db.php");
 session_start();
 
+// ✅ Дебъгване на сесията (за премахване, след като приключат тестовете)
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+// var_dump($_SESSION);
+
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     if (!isset($_SESSION["user_id"])) {
         echo json_encode(["success" => false, "message" => "Трябва да сте влезли в профила си!"]);
@@ -11,6 +16,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $user_id = $_SESSION["user_id"];
     $coin_id = intval($_POST["coin_id"]);
     $image_type = $_POST["image_type"];
+
+    // ✅ Дебъгване на входящите POST данни
+    file_put_contents("debug_like.log", print_r($_POST, true), FILE_APPEND);
 
     // Проверка дали потребителят вече е харесал тази снимка
     $query = $conn->prepare("SELECT * FROM likes WHERE user_id = ? AND coin_id = ? AND image_type = ?");
@@ -39,4 +47,3 @@ $query = $conn->query("SELECT coin_id, image_type, COUNT(*) AS likes FROM likes 
 $likesData = $query->fetchAll(PDO::FETCH_ASSOC);
 echo json_encode($likesData);
 ?>
-
