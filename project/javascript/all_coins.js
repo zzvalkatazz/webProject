@@ -64,7 +64,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     gallery.appendChild(div);
                 });
 
-                addLikeEventListeners(); // Добавяне на обработчици за лайкове
+                addLikeEventListeners();
             })
             .catch(error => console.error("❌ Грешка при зареждането на колекцията", error));
     }
@@ -95,15 +95,12 @@ document.addEventListener("DOMContentLoaded", function () {
     sortSelect.addEventListener("change",fetchAndShowCoins);
     fetchAndShowCoins();
 	
-	 // Функция за експортиране на монетата в CSV
         window.exportCoin = function (coinId) {
-            // Това ще отвори директно генерирания CSV файл чрез PHP
             window.location.href = `../php/export_coin.php?coin_id=${coinId}`;
         };
     
     window.deleteCoin = function (coinId) {
         if (confirm("Наистина ли искате да изтриете тази монета?")) {
-            // Това ще изпрати заявка до PHP скрипт за изтриване на монетата
             fetch(`../php/delete_coin.php?coin_id=${coinId}`, {
                 method: 'GET',
             })
@@ -111,7 +108,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 .then(data => {
                     if (data.success) {
                         alert('Монетата беше успешно изтрита.');
-                        fetchAndShowCoins(); // Презареждаме галерията с актуализираните данни
+                        fetchAndShowCoins();
                     } else {
                         alert('Грешка при изтриването на монетата.');
                     }
@@ -136,9 +133,8 @@ document.addEventListener("DOMContentLoaded", function () {
                 })
                 .then(response => response.json())
                 .then(data => {
-                    console.log("📤 Server response:", data); // ✅ Проверка на отговора
+                    console.log("📤 Server response:", data); //
                     if (data.success) {
-                        // Обновяване на лайк броя веднага за този бутон
                         let likeCountSpan = button.querySelector(".like-count");
                         if (likeCountSpan) {
                             likeCountSpan.textContent = data.likes;
@@ -154,7 +150,6 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 
-    // Функция за обновяване на лайковете, ако е необходимо
     function updateLikesDisplay() {
         fetch("../php/like.php")
         .then(response => response.json())
@@ -179,7 +174,6 @@ document.addEventListener("DOMContentLoaded", function () {
     filterContinent.addEventListener("change", fetchAndShowCoins);
     sortSelect.addEventListener("change", fetchAndShowCoins);
 
-    // Зареждаме монетите и обновяваме лайковете
     fetchAndShowCoins();
     updateLikesDisplay();
 });
