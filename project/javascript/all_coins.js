@@ -58,7 +58,6 @@ document.addEventListener("DOMContentLoaded", function () {
 							 <p> Качено от :${coin.owner}</p>
                  <button onclick="showDetails('${encodeURIComponent(coin.name)}','${coin.year}','${encodeURIComponent(coin.country)}','${coin.value}','${encodeURIComponent(coin.continent)}','${encodeURIComponent(coin.collection_name)}','${encodeURIComponent(coin.owner)}','${coin.front_image}','${coin.back_image}')"> Детайли за монетата</button>
                   <button onclick="exportCoin('${coin.id}')"> Export </button> 
-				  <button onclick="deleteCoin('${coin.id}')">Изтриване</button>
 							
                         </div>
                     `;

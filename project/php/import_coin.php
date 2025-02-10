@@ -27,7 +27,7 @@ $collection_name = htmlspecialchars($_POST['collection_name']);
 $country = htmlspecialchars($_POST['country']);
 
 
-$upload_dir = "../uploads";
+$upload_dir = "../uploads/";
 if (!file_exists($upload_dir)) {
     mkdir($upload_dir, 0777, true);
 }

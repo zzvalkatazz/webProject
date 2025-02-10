@@ -28,7 +28,7 @@ if (!$coin) {
 }
 
 // Изтриване на свързаните изображения
-$upload_dir = "uploads/";
+$upload_dir = "../uploads/";
 $front_image_path = $upload_dir . $coin['front_image'];
 $back_image_path = $upload_dir . $coin['back_image'];
 
