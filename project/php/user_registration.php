@@ -7,6 +7,29 @@
     <form action="./user_registration.php" method="post" novalidate>
     <link rel="stylesheet" href="../css/login_and_registration.css">
     <title>Вход- Coin Collector</title>
+
+    <style>
+        body {
+            background-color: #FFFFFF; 
+            background-image: url('./2076f4df-b05a-40d6-a0ac-fdb9f3edc526.jpg'); 
+            background-size: 47%; 
+            background-position: center center; 
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif; 
+        }
+
+        .login-container {
+            background-color:rgba(255, 255, 255, 0.9); 
+            padding: 20px;
+            border-radius: 10px;
+            max-width: 400px;
+            margin: 50px auto; 
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+        }
+    </style>
 </head>
 <body>
    <div class="login-container">
