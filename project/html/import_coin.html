@@ -47,7 +47,10 @@
         }
 
         section {
-            padding: 20px;
+            display:flex;
+            padding: 40px;
+            flex-direction: column;
+            align-items: center;
         }
 
         form {
@@ -92,6 +95,16 @@
             margin: 0;
             padding: 0;
             font-family: Arial, sans-serif; 
+        }
+        .form-container {
+            width: 100%;
+            max-width: 280px;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+            text-align: left;
         }
 
         .login-container {
@@ -155,7 +168,17 @@
             <input type="file" name="back_image" accept="image/png, image/jpeg" required><br>
 
             <button type="submit">Запази</button>
+        
         </form>
+        <h2>Импортиране на монети от CSV</h2>
+        <div class="form-container">
+            <form action="../php/real_import_coin.php" method="post" enctype="multipart/form-data">
+                <label for="csv_file">Изберете CSV файл:</label>
+                <input type="file" name="csv_file" id="csv_file" accept=".csv" required>
+                <button type="submit">Импортирай</button>
+            </form>
+        </div>
+  
     </section>
 </body>
 </html>
